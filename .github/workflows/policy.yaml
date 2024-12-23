@@ -26,14 +26,18 @@ jobs:
             sudo apt-get update
             sudo apt-get install azure-cli
 
-    - name: Azure login
-      uses: azure/login@v2
+    # - name: Azure login
+    #   uses: azure/login@v2
+    #   with:
+    #       client-id: ${{ secrets.AZURE_CLIENT_ID }}
+    #       client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+    #       tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+    #       subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    #       enable-AzPSSession: true
+    
+    - uses: azure/login@v2
       with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          enable-AzPSSession: true
+         creds: '${{ secrets.AZURE_CREDENTIALS }}'
 
     - name: Export WAF Policy
       run: |
