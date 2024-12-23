@@ -1,4 +1,4 @@
-name: Update Azure WAF Policy with New IPs
+name: Update Azure WAF Policy with New IP
 
 on:
   push:
