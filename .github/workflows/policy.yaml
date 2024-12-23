@@ -1,0 +1,42 @@
+name: Update Azure WAF Policy with New IPs
+
+on:
+  push:
+    branches:
+      - main  # You can trigger this on a different branch as needed
+
+jobs:
+  update-waf-policy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Azure CLI
+      uses: azure/setup-azurecli@v1
+      with:
+        azure-cli-version: latest
+
+    - name: Log in to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Export WAF Policy
+      run: |
+        az network front-door waf-policy show --resource-group Mithun-RG --policy-name azusctruuatwaf > policy.json
+
+    - name: Modify WAF Policy (Add IPs to Existing Condition)
+      run: |
+        # This script modifies the policy.json to include new IPs under the existing condition.
+        IPs="192.168.1.1 192.168.2.2 192.168.2.3 180.151.37.235"
+        jq '.properties.rules[] | select(.name=="IPrestrictiontruuat") | .matchConditions[0].values += ['$IPs']' policy.json > updated_policy.json
+
+    - name: Apply Updated WAF Policy
+      run: |
+        az network front-door waf-policy update --resource-group Mithun-RG --policy-name azusctruuatwaf --set @updated_policy.json
+
+    - name: Clean up
+      run: |
+        rm policy.json updated_policy.json
