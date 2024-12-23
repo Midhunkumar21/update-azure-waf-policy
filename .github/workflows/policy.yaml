@@ -1,4 +1,4 @@
-name: Update Azure WAF Policy with New IP
+name: Update Azure WAF Policy with New IPs
 
 on:
   workflow_dispatch:
