@@ -1,6 +1,7 @@
 name: Update Azure WAF Policy with New IP
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main  # Trigger the workflow on a push to the main branch
