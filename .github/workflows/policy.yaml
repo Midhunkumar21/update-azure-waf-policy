@@ -3,7 +3,7 @@ name: Update Azure WAF Policy with New IPs
 on:
   push:
     branches:
-      - main  # You can trigger this on a different branch as needed
+      - main  # Trigger the workflow on a push to the main branch
 
 jobs:
   update-waf-policy:
@@ -16,7 +16,7 @@ jobs:
     - name: Set up Azure CLI
       uses: azure/cli@v1
       with:
-        azure-cli-version: latest
+        azcliversion: latest  # Correct input to specify the Azure CLI version
 
     - name: Log in to Azure
       uses: azure/login@v1
